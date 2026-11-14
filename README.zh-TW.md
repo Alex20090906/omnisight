@@ -44,31 +44,24 @@ OmniSight 是一個 MCP server，從根源解決這些問題。Claude Code、Cod
 ## 安裝
 
 需要 Windows 10 1903 以上和 [uv](https://docs.astral.sh/uv/)。
+不用先安裝：代理第一次啟動時，`uvx` 會自動從 PyPI 下載 OmniSight。
 
-```bash
-git clone https://github.com/Alex20090906/omnisight
-cd omnisight
-uv sync --extra ocr
-```
-
-`--extra ocr` 會安裝 RapidOCR（約 70 MB）。它在小字級介面文字和中英混排上，比 Windows 內建 OCR 準確得多。不裝也能用，會改用 Windows 內建 OCR。
+`[ocr]` 選項會加裝 RapidOCR（約 70 MB）。它在小字級介面文字和中英混排上，比 Windows 內建 OCR 準確得多。不需要的話改用 `uvx omnisight`，會使用 Windows 內建 OCR。
 
 ## 接上代理
-
-把 `<路徑>` 換成這個資料夾的絕對路徑。
 
 **Claude Code**
 
 ```bash
-claude mcp add -s user omnisight -- uv run --directory <路徑> omnisight
+claude mcp add -s user omnisight -- uvx --from "omnisight[ocr]" omnisight
 ```
 
 **Codex**（`~/.codex/config.toml`）
 
 ```toml
 [mcp_servers.omnisight]
-command = "uv"
-args = ["run", "--directory", "<路徑>", "omnisight"]
+command = "uvx"
+args = ["--from", "omnisight[ocr]", "omnisight"]
 ```
 
 **Cursor、Cline、Claude Desktop 等使用 `mcpServers` JSON 的用戶端**
@@ -77,11 +70,20 @@ args = ["run", "--directory", "<路徑>", "omnisight"]
 {
   "mcpServers": {
     "omnisight": {
-      "command": "uv",
-      "args": ["run", "--directory", "<路徑>", "omnisight"]
+      "command": "uvx",
+      "args": ["--from", "omnisight[ocr]", "omnisight"]
     }
   }
 }
+```
+
+**從原始碼執行**
+
+```bash
+git clone https://github.com/Alex20090906/omnisight
+cd omnisight
+uv sync --extra ocr
+claude mcp add -s user omnisight -- uv run --directory <路徑> omnisight
 ```
 
 ## 環境變數

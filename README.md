@@ -1,6 +1,6 @@
 # OmniSight
 
-> 繁體中文說明：[README.zh-TW.md](README.zh-TW.md)
+> 繁體中文說明：[README.zh-TW.md](https://github.com/Alex20090906/omnisight/blob/main/README.zh-TW.md)
 
 **Computer use for every Windows app window, for any MCP agent: GPU-rendered,
 covered or in the background.**
@@ -64,33 +64,27 @@ The `window` argument takes an hwnd, or part of the title or process name.
 ## Install
 
 Requires Windows 10 1903 or later and [uv](https://docs.astral.sh/uv/).
+Nothing to install up front: `uvx` fetches OmniSight from PyPI the first time
+the agent starts it.
 
-```bash
-git clone https://github.com/Alex20090906/omnisight
-cd omnisight
-uv sync --extra ocr
-```
-
-`--extra ocr` installs RapidOCR (about 70 MB). It is far more accurate than the
+The `[ocr]` extra adds RapidOCR (about 70 MB). It is far more accurate than the
 built-in Windows OCR on small UI fonts and mixed Chinese / English text. Without
-it, OmniSight uses Windows OCR.
+it, use `uvx omnisight` and OmniSight falls back to Windows OCR.
 
 ## Connect an agent
-
-Replace `<path>` with the absolute path of this folder.
 
 **Claude Code**
 
 ```bash
-claude mcp add -s user omnisight -- uv run --directory <path> omnisight
+claude mcp add -s user omnisight -- uvx --from "omnisight[ocr]" omnisight
 ```
 
 **Codex** (`~/.codex/config.toml`)
 
 ```toml
 [mcp_servers.omnisight]
-command = "uv"
-args = ["run", "--directory", "<path>", "omnisight"]
+command = "uvx"
+args = ["--from", "omnisight[ocr]", "omnisight"]
 ```
 
 **Cursor, Cline, Claude Desktop and other `mcpServers` JSON configs**
@@ -99,11 +93,20 @@ args = ["run", "--directory", "<path>", "omnisight"]
 {
   "mcpServers": {
     "omnisight": {
-      "command": "uv",
-      "args": ["run", "--directory", "<path>", "omnisight"]
+      "command": "uvx",
+      "args": ["--from", "omnisight[ocr]", "omnisight"]
     }
   }
 }
+```
+
+**From source**
+
+```bash
+git clone https://github.com/Alex20090906/omnisight
+cd omnisight
+uv sync --extra ocr
+claude mcp add -s user omnisight -- uv run --directory <path> omnisight
 ```
 
 ## Environment variables
@@ -160,4 +163,4 @@ uv run pytest
 
 ## License
 
-[Apache-2.0](LICENSE)
+[Apache-2.0](https://github.com/Alex20090906/omnisight/blob/main/LICENSE)
