@@ -1,0 +1,61 @@
+[project]
+name = "omnisight"
+version = "0.1.0"
+description = "Computer-use backend (MCP server) that sees and drives any Windows app window: GPU-rendered, covered or in the background."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Xiao-Chien Lin", email = "356159129+Alex20090906@users.noreply.github.com" }
+]
+keywords = ["mcp", "computer-use", "agents", "windows", "ui-automation", "screen-capture", "ocr"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Win32 (MS Windows)",
+    "Intended Audience :: Developers",
+    "Operating System :: Microsoft :: Windows :: Windows 10",
+    "Operating System :: Microsoft :: Windows :: Windows 11",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Desktop Environment",
+    "Topic :: Software Development :: Testing",
+]
+requires-python = ">=3.12"
+dependencies = [
+    "comtypes>=1.5.0",
+    "mcp[cli]>=2.3.0",
+    "mss>=10.2.0",
+    "numpy>=2.5.4",
+    "pillow>=13.0.0",
+    "uiautomation>=2.0.29",
+    "windows-capture>=2.0.1",
+    "winrt-windows-foundation>=4!10.0.28000.2957",
+    "winrt-windows-foundation-collections>=4!10.0.28000.2957",
+    "winrt-windows-globalization>=4!10.0.28000.2957",
+    "winrt-windows-graphics-imaging>=4!10.0.28000.2957",
+    "winrt-windows-media-ocr>=4!10.0.28000.2957",
+    "winrt-windows-storage-streams>=4!10.0.28000.2957",
+]
+
+[project.urls]
+Homepage = "https://github.com/Alex20090906/omnisight"
+Issues = "https://github.com/Alex20090906/omnisight/issues"
+
+[project.scripts]
+omnisight = "omnisight.server:main"
+
+[project.optional-dependencies]
+ocr = [
+    "rapidocr-onnxruntime>=1.4.4",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.25,<0.12.0"]
+build-backend = "uv_build"
+
+
